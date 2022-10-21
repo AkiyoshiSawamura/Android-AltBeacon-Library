@@ -45,12 +45,12 @@ namespace AndroidAltBeaconLibrary.UnitTests
 
 			public String Id => Identifiers[1].ToString();
 	        
-			public override int DescribeContents()
+			public int DescribeContents()
 			{
 				return 0;
 			}
 			
-			public override void WriteToParcel(Parcel @out, ParcelableWriteFlags flags)
+			public void WriteToParcel(Parcel @out, ParcelableWriteFlags flags)
 			{
 				// TODO: Implement me
 			}
@@ -59,7 +59,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	    internal class SBeaconParser : BeaconParser {
 	        //private static final String TAG = "SBeaconParser";
 
-			public override Beacon FromScanData(byte[] scanData, int rssi, Android.Bluetooth.BluetoothDevice device)
+			public Beacon FromScanData(byte[] scanData, int rssi, Android.Bluetooth.BluetoothDevice device)
 			{
 				int startByte = 2;
 	            while (startByte <= 5) {

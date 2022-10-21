@@ -16,7 +16,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        byte[] bytes = HexStringToByteArray("020106030334121516341200e72f234454f4911ba9ffa6000000000001000000000000000000000000000000000000000000000000000000000000000000");
 	        BeaconParser parser = new BeaconParser().SetBeaconLayout("s:0-1=1234,m:2-2=00,p:3-3:-41,i:4-13,i:14-19");
 	        AssertEx.NotNull("Service uuid parsed should not be null", parser.ServiceUuid);
-	        Beacon gattBeacon = parser.FromScanData(bytes, -55, null);
+	        Beacon gattBeacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.NotNull("GattBeacon should be not null if parsed successfully", gattBeacon);
 	        AssertEx.AreEqual("id1 should be parsed", "0x2f234454f4911ba9ffa6", gattBeacon.Id1.ToString());
 	        AssertEx.AreEqual("id2 should be parsed", "0x000000000001", gattBeacon.Id2.ToString());
@@ -28,7 +28,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	    public void TestDetectsGattBeacon2MaxLength() {
 	        byte[] bytes = HexStringToByteArray("020106030334121616341210ec007261646975736e6574776f726b7373070000000000000000000000000000000000000000000000000000000000000000");
 	        BeaconParser parser = new BeaconParser().SetBeaconLayout("s:0-1=1234,m:2-2=10,p:3-3:-41,i:4-20v");
-	        Beacon gattBeacon = parser.FromScanData(bytes, -55, null);
+	        Beacon gattBeacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.NotNull("GattBeacon should be not null if parsed successfully", gattBeacon);
 	        AssertEx.AreEqual("GattBeacon identifier length should be proper length",
 	                17,
@@ -40,7 +40,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	    public void TestDetectsGattBeacon2WithShortIdentifier() {
 	        byte[] bytes = HexStringToByteArray("020106030334121516341210ec007261646975736e6574776f726b7307000000000000000000000000000000000000000000000000000000000000000000");
 	        BeaconParser parser = new BeaconParser().SetBeaconLayout("s:0-1=1234,m:2-2=10,p:3-3:-41,i:4-20v");
-	        Beacon gattBeacon = parser.FromScanData(bytes, -55, null);
+	        Beacon gattBeacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.NotNull("GattBeacon should be not null if parsed successfully", gattBeacon);
 	        AssertEx.AreEqual("GattBeacon identifier length should be adjusted smaller if packet is short",
 	                     16,
@@ -62,7 +62,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	    public void TestDetectsEddystoneUID() {
 	        byte[] bytes = HexStringToByteArray("0201060303aafe1516aafe00e700010203040506070809010203040506000000000000000000000000000000000000000000000000000000000000000000");
 	        BeaconParser parser = new BeaconParser().SetBeaconLayout(BeaconParser.EddystoneUidLayout);
-	        Beacon eddystoneUidBeacon = parser.FromScanData(bytes, -55, null);
+	        Beacon eddystoneUidBeacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.NotNull("Eddystone-UID should be not null if parsed successfully", eddystoneUidBeacon);
 	    }
 	
@@ -72,7 +72,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        byte[] bytes = HexStringToByteArray("020106030334120a16341210ed00636e6e070000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
 	        BeaconParser parser = new BeaconParser().SetBeaconLayout("s:0-1=1234,m:2-2=10,p:3-3:-41,i:4-20v");
 	        
-	        Beacon gattBeacon = parser.FromScanData(bytes, -55, null);
+	        Beacon gattBeacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.NotNull("GattBeacon should be not null if parsed successfully", gattBeacon);
 	        AssertEx.AreEqual("GattBeacon identifier length should be adjusted smaller if packet is short",
 	                5,
@@ -113,7 +113,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        byte[] bytes = {2, 1, 4, 3, 3, (byte) 216, (byte) 254, 19, 22, (byte) 216, (byte) 254, 0, (byte) 242, 3, 103, 111, 111, 46, 103, 108, 47, 104, 113, 66, 88, 69, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	        BeaconParser parser = new BeaconParser().SetBeaconLayout("s:0-1=fed8,m:2-2=00,p:3-3:-41,i:4-21v");
 	        
-	        Beacon uriBeacon = parser.FromScanData(bytes, -55, null);
+	        Beacon uriBeacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.NotNull("UriBeacon should be not null if parsed successfully", uriBeacon);
 	        AssertEx.AreEqual("UriBeacon identifier length should be correct",
 	                14,

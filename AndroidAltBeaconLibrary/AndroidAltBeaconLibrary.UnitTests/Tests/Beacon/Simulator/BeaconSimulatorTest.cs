@@ -13,7 +13,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	    public void testSetBeacons(){
 	        StaticBeaconSimulator staticBeaconSimulator = new StaticBeaconSimulator();
 	        byte[] beaconBytes = HexStringToByteArray("02011a1bff1801beac2f234454cf6d4a0fadf2f4911ba9ffa600010002c509");
-	        Beacon beacon = new AltBeaconParser().FromScanData(beaconBytes, -55, null);
+	        Beacon beacon = new AltBeaconParser().FromScanData(beaconBytes, -55, null, 0);
 	        List<Beacon> beacons = new List<Beacon>();
 	        beacons.Add(beacon);
 	        staticBeaconSimulator.Beacons = beacons;

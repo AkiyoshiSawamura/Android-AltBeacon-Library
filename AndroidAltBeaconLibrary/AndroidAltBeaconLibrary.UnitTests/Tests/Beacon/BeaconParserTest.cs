@@ -45,7 +45,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var bytes = HexStringToByteArray("02011a1aff180112342f234454cf6d4a0fadf2f4911ba9ffa600010002c5");
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:2-3=1234,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.AreEqual("mRssi should be as passed in", -55, beacon.Rssi);
 	        AssertEx.AreEqual("uuid should be parsed", "2f234454-cf6d-4a0f-adf2-f4911ba9ffa6", beacon.GetIdentifier(0).ToString());
 	        AssertEx.AreEqual("id2 should be parsed", "1", beacon.GetIdentifier(1).ToString());
@@ -60,7 +60,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var bytes = HexStringToByteArray("02011a1aff180112342f234454cf6d4a0fadf2f4911ba9ffa600010002c5");
 	        var parser = new BeaconParser("my_beacon_type");
 	        parser.SetBeaconLayout("m:2-3=1234,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.AreEqual("parser identifier should be accessible", "my_beacon_type", beacon.ParserIdentifier);
 	    }
 	
@@ -70,7 +70,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var bytes = HexStringToByteArray("02011a1aff1801beac2f234454cf6d4a0fadf2f4911ba9ffa600010002c5000000");
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.AreEqual("mRssi should be as passed in", -55, beacon.Rssi);
 	        AssertEx.AreEqual("uuid should be parsed", "2f234454-cf6d-4a0f-adf2-f4911ba9ffa6", beacon.GetIdentifier(0).ToString());
 	        AssertEx.AreEqual("id2 should be parsed", "1", beacon.GetIdentifier(1).ToString());
@@ -87,7 +87,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var bytes = HexStringToByteArray("02011a1bff1801beac2f234454cf6d4a0fadf2f4911ba9ffa600010002c509000000");
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:0-3=1801beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.AreEqual("mRssi should be as passed in", -55, beacon.Rssi);
 	        AssertEx.AreEqual("uuid should be parsed", "2f234454-cf6d-4a0f-adf2-f4911ba9ffa6", beacon.GetIdentifier(0).ToString());
 	        AssertEx.AreEqual("id2 should be parsed", "1", beacon.GetIdentifier(1).ToString());
@@ -103,7 +103,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var bytes = HexStringToByteArray("02011a1bff1801beac2f234454cf6d4a0fadf2f4911ba9ffa600010002c509");
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        var regeneratedBytes = parser.GetBeaconAdvertisementData(beacon);
 	        var expectedMatch = Java.Util.Arrays.CopyOfRange(bytes, 7, bytes.Length);
 	        AssertEx.AreEqual("beacon advertisement bytes should be the same after re-encoding", expectedMatch, regeneratedBytes);
@@ -116,7 +116,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var bytes = HexStringToByteArray("0201060303aafe1516aafe2001021203130414243405152535");
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout(BeaconParser.EddystoneTlmLayout);
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        var regeneratedBytes = parser.GetBeaconAdvertisementData(beacon);
 	        var expectedMatch = Java.Util.Arrays.CopyOfRange(bytes, 11, bytes.Length);
 	        AssertEx.AreEqual("beacon advertisement bytes should be the same after re-encoding", ByteArrayToHexString(expectedMatch), ByteArrayToHexString(regeneratedBytes));
@@ -128,7 +128,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var bytes = HexStringToByteArray("02011a1bff1801beac0102030405060708090a0b0c0d0e0f1011121314c50900000000");
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:2-3=beac,i:4-9,i:10-15l,i:16-23,p:24-24,d:25-25");
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.AreEqual("mRssi should be as passed in", -55, beacon.Rssi);
 	        AssertEx.AreEqual("id1 should be big endian", "0x010203040506", beacon.GetIdentifier(0).ToString());
 	        AssertEx.AreEqual("id2 should be little endian", "0x0c0b0a090807", beacon.GetIdentifier(1).ToString());
@@ -144,7 +144,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var bytes = HexStringToByteArray("02011a1bff1801beac0102030405060708090a0b0c0d0e0f1011121314c509");
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:2-3=beac,i:4-9,i:10-15l,i:16-23,p:24-24,d:25-25");
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        var regeneratedBytes = parser.GetBeaconAdvertisementData(beacon);
 	        var expectedMatch = Java.Util.Arrays.CopyOfRange(bytes, 7, bytes.Length);
 	        AssertEx.AreEqual("beacon advertisement bytes should be the same after re-encoding", ByteArrayToHexString(expectedMatch), ByteArrayToHexString(regeneratedBytes));
@@ -156,7 +156,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var bytes = HexStringToByteArray("0201061bffaabbbeace2c56db5dffb48d2b060d0f5a71096e000010004c50000000000000000000000000000000000000000000000000000000000000000");
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.AreEqual("manufacturer should be parsed", "bbaa", beacon.Manufacturer.ToString("X").ToLowerInvariant());
 	    }
 	
@@ -167,7 +167,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var parser = new BeaconParser();
 	        parser.SetAllowPduOverflow(Java.Lang.Boolean.False);
 	        parser.SetBeaconLayout("s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20");
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.Null("beacon should not be parsed", beacon);
 	    }
 	
@@ -177,7 +177,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var bytes = HexStringToByteArray("0201060303aafe0d16aafe10e70102030405060708090a0b0c0d0e0f0102030405060708090a0b0c0d0e0f00000000000000000000000000000000000000");
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout("s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v");
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.AreEqual("URL Identifier should be truncated at 8 bytes", 8, beacon.Id1.ToByteArray().Length);
 	    }
 	
@@ -191,7 +191,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        parser.SetAllowPduOverflow(Java.Lang.Boolean.False);
 	        parser.SetBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
 	
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.Null("beacon should not be parsed", beacon);
 	    }
 	
@@ -205,7 +205,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
 	
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.NotNull("beacon should be parsed", beacon);
 	    }
 	
@@ -231,7 +231,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        Array.Copy(headerBytes, 0, advBytes, 0, headerBytes.Length);
 	        Array.Copy(bytes, 0, advBytes, headerBytes.Length, bytes.Length);
 	
-	        Beacon parsedBeacon = p.FromScanData(advBytes, -59, null);
+	        Beacon parsedBeacon = p.FromScanData(advBytes, -59, null, 0);
 	        AssertEx.NotNull(String.Format("Parsed beacon from {0} should not be null", ByteArrayToHexString(advBytes)), parsedBeacon);
 	        double parsedLatitude = Int64.Parse(parsedBeacon.Id2.ToString().Substring(2), System.Globalization.NumberStyles.HexNumber) / 10000.0 - 90.0;
 	        double parsedLongitude = Int64.Parse(parsedBeacon.Id3.ToString().Substring(2), System.Globalization.NumberStyles.HexNumber) / 10000.0 - 180.0;
@@ -269,7 +269,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        var parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
 	
-	        var beacon = parser.FromScanData(bytes, -55, null);
+	        var beacon = parser.FromScanData(bytes, -55, null, 0);
 	        AssertEx.Null("beacon not be parsed without an exception being thrown", beacon);
 	    }
 	
@@ -303,7 +303,7 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	        Array.Copy(bodyBytes, 0, bytes, headerBytes.Length, bodyBytes.Length);
 	
 	        // Try parsing the byte array
-	        Beacon parsedBeacon = parser.FromScanData(bytes, -59, null);
+	        Beacon parsedBeacon = parser.FromScanData(bytes, -59, null, 0);
 	
 	        AssertEx.AreEqual("parsed beacon should contain a valid data on index 0", now, parsedBeacon.DataFields[0].LongValue());
 	        AssertEx.AreEqual("parsed beacon should contain a valid data on index 1", Convert.ToInt64(1234L), parsedBeacon.DataFields[1].LongValue());

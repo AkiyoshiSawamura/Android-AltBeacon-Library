@@ -13,8 +13,9 @@ namespace AndroidAltBeaconLibrary.UnitTests
 		[Test]
 	    public void testGetAltBeaconScanFilter() {
 	        BeaconParser parser = new AltBeaconParser();
-	        BeaconManager.SetsManifestCheckingDisabled(true); // no manifest available in robolectric
-	        var scanFilterDatas = new ScanFilterUtils().CreateScanFilterDataForBeaconParser(parser);
+            BeaconManager.ManifestCheckingDisabled = true; // no manifest available in robolectric
+            List<Identifier> identifierList = new List<Identifier>();
+            var scanFilterDatas = new ScanFilterUtils().CreateScanFilterDataForBeaconParser(parser, identifierList);
 	        AssertEx.AreEqual("scanFilters should be of correct size", 1, scanFilterDatas.Count);
 	        ScanFilterUtils.ScanFilterData sfd = scanFilterDatas[0];
 	        AssertEx.AreEqual("manufacturer should be right", 0x0118, sfd.Manufacturer);
@@ -26,9 +27,10 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	    public void testGenericScanFilter() {
 	        BeaconParser parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:2-3=1111,i:4-6,p:24-24");
-	        BeaconManager.SetsManifestCheckingDisabled(true); // no manifest available in robolectric
-	        var scanFilterDatas = new ScanFilterUtils().CreateScanFilterDataForBeaconParser(parser);
-	        AssertEx.AreEqual("scanFilters should be of correct size", 1, scanFilterDatas.Count);
+	        BeaconManager.ManifestCheckingDisabled = true; // no manifest available in robolectric
+            List<Identifier> identifierList = new List<Identifier>();
+            var scanFilterDatas = new ScanFilterUtils().CreateScanFilterDataForBeaconParser(parser, identifierList);
+            AssertEx.AreEqual("scanFilters should be of correct size", 1, scanFilterDatas.Count);
 	        ScanFilterUtils.ScanFilterData sfd = scanFilterDatas[0];
 	        AssertEx.AreEqual("manufacturer should be right", 0x004c, sfd.Manufacturer);
 	        AssertEx.AreEqual("mask length should be right", 2, sfd.Mask.Count);
@@ -40,9 +42,10 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	    public void testEddystoneScanFilterData() {
 	        BeaconParser parser = new BeaconParser();
 	        parser.SetBeaconLayout(BeaconParser.EddystoneUidLayout);
-	        BeaconManager.SetsManifestCheckingDisabled(true); // no manifest available in robolectric
-	        var scanFilterDatas = new ScanFilterUtils().CreateScanFilterDataForBeaconParser(parser);
-	        AssertEx.AreEqual("scanFilters should be of correct size", 1, scanFilterDatas.Count);
+	        BeaconManager.ManifestCheckingDisabled = true; // no manifest available in robolectric
+            List<Identifier> identifierList = new List<Identifier>();
+            var scanFilterDatas = new ScanFilterUtils().CreateScanFilterDataForBeaconParser(parser, identifierList);
+            AssertEx.AreEqual("scanFilters should be of correct size", 1, scanFilterDatas.Count);
 	        ScanFilterUtils.ScanFilterData sfd = scanFilterDatas[0];
 	        AssertEx.AreEqual("serviceUuid should be right", new Java.Lang.Long(0xfeaa).LongValue(), sfd.ServiceUuid.LongValue());
 	    }
@@ -51,9 +54,10 @@ namespace AndroidAltBeaconLibrary.UnitTests
 	    public void testZeroOffsetScanFilter() {
 	        BeaconParser parser = new BeaconParser();
 	        parser.SetBeaconLayout("m:0-3=11223344,i:4-6,p:24-24");
-	        BeaconManager.SetsManifestCheckingDisabled(true); // no manifest available in robolectric
-	        var scanFilterDatas = new ScanFilterUtils().CreateScanFilterDataForBeaconParser(parser);
-	        AssertEx.AreEqual("scanFilters should be of correct size", 1, scanFilterDatas.Count);
+            BeaconManager.ManifestCheckingDisabled = true; // no manifest available in robolectric
+            List<Identifier> identifierList = new List<Identifier>();
+            var scanFilterDatas = new ScanFilterUtils().CreateScanFilterDataForBeaconParser(parser, identifierList);
+            AssertEx.AreEqual("scanFilters should be of correct size", 1, scanFilterDatas.Count);
 	        ScanFilterUtils.ScanFilterData sfd = scanFilterDatas[0];
 	        AssertEx.AreEqual("manufacturer should be right", 0x004c, sfd.Manufacturer);
 	        AssertEx.AreEqual("mask length should be right", 2, sfd.Mask.Count);
